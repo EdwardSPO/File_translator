@@ -19,6 +19,12 @@
   </select>
 </div>
 
+<p>Progreso:
+    <progress max="100"></progress>
+</p>
+<img class="preview">
+
+
 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
   <button id="traduccion" type="button" class="btn btn-success">Traducir</button>
@@ -27,7 +33,26 @@
 </div>
     </div>
 </template>
+
+
+
 <script>
+
+  import firebase from 'firebase';
+   export default {
+     name: 'Translate',
+     data(){	  
+  	return{
+        imageData: null,  
+        picture: null
+   	}
+     },
+          };
+            
+     
+  
+   
+ 
 </script>
 <style scoped>
 .header{
