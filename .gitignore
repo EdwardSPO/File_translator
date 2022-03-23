@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+.vs/translatorApi
 
 # local env files
 .env.local
