@@ -11,13 +11,13 @@ namespace translatorApi.Controller
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UsersContext _context;
+       
 
         private readonly IUserManager _userManager;
 
-        public UserController(UsersContext context, IUserManager userManager)
+        public UserController( IUserManager userManager)
         {
-            _context = context;
+          
             _userManager = userManager;
 
 
@@ -28,20 +28,23 @@ namespace translatorApi.Controller
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
-            var users = await _context.Users.FirstOrDefaultAsync(s => s.Id == id);
-            if (users == null)
+            var ordenResult = await _userManager.GetByIdAsync(id);
+            if (ordenResult.Success)
             {
-                return NotFound();
+                return Ok(ordenResult.Value);
             }
-            return Ok(users);
+            return NotFound(ordenResult.Errors);
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            var result = await _userManager.CreateAsync(user);
+            if (result.Success)
+            {
+                return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
+            }
+            return BadRequest(result.Errors);
         }
 
 
